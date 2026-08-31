@@ -1,0 +1,1196 @@
+{
+	"info": {
+		"_postman_id": "c1f8a8bb-37e4-4a41-b844-486a4c28f322",
+		"name": "Prueba3 Microservices API",
+		"description": "Colección de Postman con todos los endpoints de los microservicios en el proyecto Prueba3, organizados por carpetas y con variables de entorno configuradas por defecto.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Clientes (Port 8080)",
+			"item": [
+				{
+					"name": "Listar Clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{clientes_url}}/api/v1/clientes",
+							"host": [
+								"{{clientes_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"clientes"
+							]
+						},
+						"description": "Obtiene la lista de todos los clientes registrados."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Cliente por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{clientes_url}}/api/v1/clientes/:id",
+							"host": [
+								"{{clientes_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"clientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del cliente"
+								}
+							]
+						},
+						"description": "Obtiene los detalles de un cliente específico según su ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Cliente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Juan Pérez\",\n  \"correo\": \"juan.perez@example.com\",\n  \"telefono\": \"987654321\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{clientes_url}}/api/v1/clientes",
+							"host": [
+								"{{clientes_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"clientes"
+							]
+						},
+						"description": "Registra un nuevo cliente en el sistema. El número de teléfono debe tener exactamente 9 dígitos."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Juan Pérez Modificado\",\n  \"correo\": \"juan.perez.new@example.com\",\n  \"telefono\": \"912345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{clientes_url}}/api/v1/clientes/:id",
+							"host": [
+								"{{clientes_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"clientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del cliente a actualizar"
+								}
+							]
+						},
+						"description": "Actualiza la información de un cliente existente por su ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{clientes_url}}/api/v1/clientes/:id",
+							"host": [
+								"{{clientes_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"clientes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del cliente a eliminar"
+								}
+							]
+						},
+						"description": "Elimina un cliente del sistema por su ID."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar la entidad Clientes."
+		},
+		{
+			"name": "2. InventarioF - F1 (Port 8081)",
+			"item": [
+				{
+					"name": "Listar Artículos F1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{inventario_f_url}}/api/v1/f1",
+							"host": [
+								"{{inventario_f_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"f1"
+							]
+						},
+						"description": "Obtiene la lista de todos los artículos de F1 en el inventario."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Artículo F1 por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{inventario_f_url}}/api/v1/f1/:id",
+							"host": [
+								"{{inventario_f_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"f1",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del artículo de F1"
+								}
+							]
+						},
+						"description": "Obtiene los detalles de un artículo de F1 específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Artículo F1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Gorra Red Bull Racing Max Verstappen\",\n  \"escuderia\": \"Red Bull Racing\",\n  \"stock\": 50,\n  \"precio\": 45.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{inventario_f_url}}/api/v1/f1",
+							"host": [
+								"{{inventario_f_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"f1"
+							]
+						},
+						"description": "Crea un nuevo artículo de F1 en el inventario. El precio debe ser mayor a 0 y el stock no puede ser negativo."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar el inventario de artículos de Fórmula 1."
+		},
+		{
+			"name": "3. InventarioV - Videojuegos (Port 8082)",
+			"item": [
+				{
+					"name": "Listar Videojuegos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{inventario_v_url}}/api/v1/videojuegos",
+							"host": [
+								"{{inventario_v_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videojuegos"
+							]
+						},
+						"description": "Obtiene la lista de todos los videojuegos en el inventario."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Videojuego por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{inventario_v_url}}/api/v1/videojuegos/:id",
+							"host": [
+								"{{inventario_v_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videojuegos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del videojuego"
+								}
+							]
+						},
+						"description": "Obtiene los detalles de un videojuego específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Videojuego",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"The Legend of Zelda: Tears of the Kingdom\",\n  \"plataforma\": \"Nintendo Switch\",\n  \"stock\": 15,\n  \"precio\": 59.99\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{inventario_v_url}}/api/v1/videojuegos",
+							"host": [
+								"{{inventario_v_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"videojuegos"
+							]
+						},
+						"description": "Crea un nuevo videojuego en el inventario. El precio debe ser mayor a 0 y el stock no puede ser negativo."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar el inventario de videojuegos."
+		},
+		{
+			"name": "4. Envios (Port 8083)",
+			"item": [
+				{
+					"name": "Listar Historial de Envios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{envios_url}}/api/v1/envios",
+							"host": [
+								"{{envios_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"envios"
+							]
+						},
+						"description": "Obtiene el historial de todos los despachos/envíos creados."
+					},
+					"response": []
+				},
+				{
+					"name": "Procesar Despacho",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pedidoId\": 1,\n  \"direccion\": \"Av. Principal 123, Santiago\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{envios_url}}/api/v1/envios",
+							"host": [
+								"{{envios_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"envios"
+							]
+						},
+						"description": "Registra el despacho para un pedido específico, asociándole una dirección."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar los envíos y despachos."
+		},
+		{
+			"name": "5. Notificaciones (Port 8084)",
+			"item": [
+				{
+					"name": "Listar Notificaciones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{notificaciones_url}}/api/v1/notificaciones",
+							"host": [
+								"{{notificaciones_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"notificaciones"
+							]
+						},
+						"description": "Obtiene la lista de todas las notificaciones registradas."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Notificaciones por Cliente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{notificaciones_url}}/api/v1/notificaciones/cliente/:clienteId",
+							"host": [
+								"{{notificaciones_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"notificaciones",
+								"cliente",
+								":clienteId"
+							],
+							"variable": [
+								{
+									"key": "clienteId",
+									"value": "1",
+									"description": "ID del cliente"
+								}
+							]
+						},
+						"description": "Obtiene todas las notificaciones enviadas a un cliente específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Notificación",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"clienteId\": 1,\n  \"mensaje\": \"Su pedido ha sido procesado con éxito y se encuentra en camino.\",\n  \"tipo\": \"EMAIL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{notificaciones_url}}/api/v1/notificaciones",
+							"host": [
+								"{{notificaciones_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"notificaciones"
+							]
+						},
+						"description": "Registra y despacha una notificación a un cliente."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar las notificaciones enviadas a los clientes."
+		},
+		{
+			"name": "6. Pagos (Port 8085)",
+			"item": [
+				{
+					"name": "Listar Pagos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pagos_url}}/api/v1/pagos",
+							"host": [
+								"{{pagos_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pagos"
+							]
+						},
+						"description": "Obtiene la lista de todos los pagos registrados."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Pago por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pagos_url}}/api/v1/pagos/:id",
+							"host": [
+								"{{pagos_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pagos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del pago"
+								}
+							]
+						},
+						"description": "Obtiene la información detallada de un pago por su ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Procesar Pago",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"clienteId\": 1,\n  \"pedidoId\": 1,\n  \"monto\": 250.50,\n  \"metodoPago\": \"TARJETA\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pagos_url}}/api/v1/pagos",
+							"host": [
+								"{{pagos_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pagos"
+							]
+						},
+						"description": "Registra y procesa un nuevo pago asociado a un pedido y cliente. El monto debe ser mayor a 0."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar los pagos de los pedidos."
+		},
+		{
+			"name": "7. Pedidos (Port 8086)",
+			"item": [
+				{
+					"name": "Listar Pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pedidos_url}}/api/v1/pedidos",
+							"host": [
+								"{{pedidos_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pedidos"
+							]
+						},
+						"description": "Obtiene la lista de todos los pedidos realizados."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Pedido por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{pedidos_url}}/api/v1/pedidos/:id",
+							"host": [
+								"{{pedidos_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pedidos",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del pedido"
+								}
+							]
+						},
+						"description": "Obtiene los detalles de un pedido específico por su ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Pedido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"clienteId\": 1,\n  \"articuloFId\": 1,\n  \"articuloVId\": null,\n  \"cantidad\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{pedidos_url}}/api/v1/pedidos",
+							"host": [
+								"{{pedidos_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pedidos"
+							]
+						},
+						"description": "Crea un nuevo pedido. Se puede especificar 'articuloFId' (Fórmula 1) o 'articuloVId' (Videojuegos), junto a la cantidad."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar las órdenes y pedidos de los clientes."
+		},
+		{
+			"name": "8. Reseñas (Port 8087)",
+			"item": [
+				{
+					"name": "Listar Reseñas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{resenas_url}}/api/v1/resenas",
+							"host": [
+								"{{resenas_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"resenas"
+							]
+						},
+						"description": "Obtiene la lista completa de reseñas publicadas."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Reseñas por Pedido",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{resenas_url}}/api/v1/resenas/pedido/:pedidoId",
+							"host": [
+								"{{resenas_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"resenas",
+								"pedido",
+								":pedidoId"
+							],
+							"variable": [
+								{
+									"key": "pedidoId",
+									"value": "1",
+									"description": "ID del pedido"
+								}
+							]
+						},
+						"description": "Obtiene las reseñas asociadas a un pedido específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Reseña",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"clienteId\": 1,\n  \"pedidoId\": 1,\n  \"calificacion\": 5,\n  \"comentario\": \"Excelente servicio y los artículos llegaron muy rápido.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{resenas_url}}/api/v1/resenas",
+							"host": [
+								"{{resenas_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"resenas"
+							]
+						},
+						"description": "Crea una nueva reseña para un pedido. La calificación debe ser un entero entre 1 y 5."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar la calificación y los comentarios de los clientes."
+		},
+		{
+			"name": "9. Promociones (Port 8088)",
+			"item": [
+				{
+					"name": "Listar Promociones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{promociones_url}}/api/v1/promociones",
+							"host": [
+								"{{promociones_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"promociones"
+							]
+						},
+						"description": "Obtiene la lista de todas las promociones del sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Promoción por Código",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{promociones_url}}/api/v1/promociones/buscar/:codigo",
+							"host": [
+								"{{promociones_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"promociones",
+								"buscar",
+								":codigo"
+							],
+							"variable": [
+								{
+									"key": "codigo",
+									"value": "VERANO2026",
+									"description": "Código de la promoción"
+								}
+							]
+						},
+						"description": "Obtiene una promoción por su código único."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Promoción",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codigo\": \"VERANO2026\",\n  \"descripcion\": \"Descuento del 15% por temporada de verano\",\n  \"descuentoPorcentaje\": 15.0,\n  \"fechaFin\": \"2026-08-31T23:59:59\",\n  \"activo\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{promociones_url}}/api/v1/promociones",
+							"host": [
+								"{{promociones_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"promociones"
+							]
+						},
+						"description": "Crea una nueva promoción en el sistema."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar las promociones."
+		},
+		{
+			"name": "10. Repartidores (Port 8089)",
+			"item": [
+				{
+					"name": "Listar Repartidores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{repartidores_url}}/api/v1/repartidores",
+							"host": [
+								"{{repartidores_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"repartidores"
+							]
+						},
+						"description": "Obtiene la lista de todos los repartidores registrados."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Repartidores Disponibles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{repartidores_url}}/api/v1/repartidores/disponibles",
+							"host": [
+								"{{repartidores_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"repartidores",
+								"disponibles"
+							]
+						},
+						"description": "Obtiene la lista de repartidores que están actualmente disponibles."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Repartidor por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{repartidores_url}}/api/v1/repartidores/:id",
+							"host": [
+								"{{repartidores_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"repartidores",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del repartidor"
+								}
+							]
+						},
+						"description": "Obtiene la información detallada de un repartidor específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Repartidor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Pedro Picapiedra\",\n  \"telefono\": \"999888777\",\n  \"tipoVehiculo\": \"AUTO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{repartidores_url}}/api/v1/repartidores",
+							"host": [
+								"{{repartidores_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"repartidores"
+							]
+						},
+						"description": "Registra un nuevo repartidor en el sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Repartidor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Pedro Picapiedra Modificado\",\n  \"telefono\": \"999888776\",\n  \"tipoVehiculo\": \"MOTO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{repartidores_url}}/api/v1/repartidores/:id",
+							"host": [
+								"{{repartidores_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"repartidores",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del repartidor a actualizar"
+								}
+							]
+						},
+						"description": "Actualiza la información de un repartidor existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Estado Repartidor",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{repartidores_url}}/api/v1/repartidores/:id/estado/:estado",
+							"host": [
+								"{{repartidores_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"repartidores",
+								":id",
+								"estado",
+								":estado"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del repartidor"
+								},
+								{
+									"key": "estado",
+									"value": "DISPONIBLE",
+									"description": "Nuevo estado (ej: DISPONIBLE, OCUPADO)"
+								}
+							]
+						},
+						"description": "Actualiza parcialmente el estado de disponibilidad del repartidor."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Repartidor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{repartidores_url}}/api/v1/repartidores/:id",
+							"host": [
+								"{{repartidores_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"repartidores",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID del repartidor a eliminar"
+								}
+							]
+						},
+						"description": "Elimina un repartidor del sistema."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gestionar los repartidores encargados de los despachos."
+		},
+		{
+			"name": "11. API Gateway (Port 8090)",
+			"item": [
+				{
+					"name": "Promociones a través de Gateway",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/v1/promociones",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"api",
+								"promociones"
+							]
+						},
+						"description": "Ejemplo de ruta explícita mapeada en el Gateway (/api/promociones/**) que redirige a 'promociones-service'."
+					},
+					"response": []
+				},
+				{
+					"name": "Clientes a través de Gateway (Eureka Locator)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/cliente-service/api/v1/clientes",
+							"host": [
+								"{{gateway_url}}"
+							],
+							"path": [
+								"cliente-service",
+								"api",
+								"v1",
+								"clientes"
+							]
+						},
+						"description": "Ejemplo de acceso usando el Discovery Locator habilitado en Gateway (lb://CLIENTES-SERVICE)."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints del API Gateway para acceder de manera centralizada a los servicios."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "clientes_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "inventario_f_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "inventario_v_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "envios_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "notificaciones_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "pagos_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "pedidos_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "resenas_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "promociones_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "repartidores_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "gateway_url",
+			"value": "http://localhost:8090",
+			"type": "string"
+		}
+	]
+}

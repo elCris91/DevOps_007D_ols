@@ -1,0 +1,269 @@
+x-eureka-env: &eureka-env
+  EUREKA_URI: http://eureka-server:8761/eureka/
+  JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -Xmx128m -Xss256k"
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: anfri-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:? MYSQL_ROOT_PASSWORD en un archivo .env (ver .env.example)}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks: [ anfri-net ]
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  eureka-server:
+    build: ./eureka-server
+    container_name: anfri-eureka-server
+    restart: unless-stopped
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: eureka-server
+      JAVA_TOOL_OPTIONS: "-XX:+UseSerialGC -Xmx128m -Xss256k"
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    ports:
+      - "8761:8761"
+    networks: [ anfri-net ]
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:8761/" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: anfri-api-gateway
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    ports:
+      - "8090:8090"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  clientes:
+    build: ./Clientes
+    container_name: anfri-clientes
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  envios:
+    build: ./Envios
+    container_name: anfri-envios
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_envios
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PEDIDO_SERVICE_URL: http://pedidos:8086/api/v1/pedidos
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  inventariof:
+    build: ./InventarioF
+    container_name: anfri-inventariof
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_inventariof
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  inventariov:
+    build: ./InventarioV
+    container_name: anfri-inventariov
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_inventariov
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  notificaciones:
+    build: ./Notificaciones
+    container_name: anfri-notificaciones
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_notificaciones
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  pagos:
+    build: ./Pagos
+    container_name: anfri-pagos
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_pagos
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  pedidos:
+    build: ./Pedidos
+    container_name: anfri-pedidos
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_pedidos
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      CLIENTE_SERVICE_URL: http://clientes:8080/api/v1/clientes
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  promociones:
+    build: ./Promociones
+    container_name: anfri-promociones
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_promociones
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  repartidores:
+    build: ./Repartidores
+    container_name: anfri-repartidores
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_repartidores
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+  resenas:
+    build: ./Resenas
+    container_name: anfri-resenas
+    restart: unless-stopped
+    environment:
+      <<: *eureka-env
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/db_anfri_resenas
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 192M
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    networks: [ anfri-net ]
+
+networks:
+  anfri-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
