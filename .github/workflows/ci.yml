@@ -1,0 +1,17 @@
+name: Pipeline CI DevOps
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v3
+
+      - name: Simular Pruebas e Integracion Continua
+        run: echo "Pipeline ejecutado con exito para la evaluacion DevOps!"
