@@ -15,3 +15,11 @@ Para este proyecto implementamos **GitFlow**. Esta elección se basa en la neces
 
 * Hotfix: Puerto por defecto configurado a 8080.
 *Módulo Clientes versión 1.0.1*
+
+---
+**Declaración de uso de IA:** Para la estructuración de este proyecto, resolución de conflictos de GitFlow y configuración del pipeline de GitHub Actions, se utilizó asistencia de Inteligencia Artificial (Gemini) como herramienta de apoyo y guía técnica.
+
+*reflexion de Cristian Retamales: la verdad estuvo complicado aprender esto pero no estuvo tan difícil, a la larga esta hasta entretenido"
+
+*reflexion de diego silva: sste trabajo me sirvió harto para entender cómo poder automatizar procesos en la práctica usando Github. al principio me costó pillar los errores cuando fallaban los scripts, aprendí lo importante que es mantener el repositorio ordenado.
+​Como autocrítica, me falta organizarme mejor desde el inicio y probar todo por partes antes de juntar el proyecto al final. En general, fue una buena experiencia para ver el impacto real de la automatización en devops "
