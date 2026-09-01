@@ -14,3 +14,4 @@ Para este proyecto implementamos **GitFlow**. Esta elección se basa en la neces
 
 
 * Hotfix: Puerto por defecto configurado a 8080.
+*Módulo Clientes versión 1.0.1*
