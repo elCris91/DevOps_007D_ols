@@ -16,6 +16,18 @@ Para este proyecto implementamos **GitFlow**. Esta elección se basa en la neces
 * Hotfix: Puerto por defecto configurado a 8080.
 *Módulo Clientes versión 1.0.1*
 
+# Pipeline de Integración Continua (CI/CD)
+El proyecto cuenta con un workflow de automatización mediante **GitHub Actions** (`.github/workflows/ci.yml`) para garantizar la integración continua del código:
+
+**Triggers (Desencadenadores):**
+  * `push` a la rama `develop`: Ejecución automática de integración continua ante cada cambio.
+  * `pull_request` a la rama `main`: Validación previa antes de fusionar código a producción.
+* **Etapas del Job (`build`):**
+  1. Ejecución sobre entorno virtual `ubuntu-latest`.
+  2. Descarga del código fuente mediante `actions/checkout@v3`.
+  3. Ejecución y simulación del pipeline de pruebas continuas.
+* **Estado:** Validado y funcional con estado exitoso en la pestaña **Actions**.
+
 ---
 **Declaración de uso de IA:** Para la estructuración de este proyecto, resolución de conflictos de GitFlow y configuración del pipeline de GitHub Actions, se utilizó asistencia de Inteligencia Artificial (Gemini) como herramienta de apoyo y guía técnica.
 
