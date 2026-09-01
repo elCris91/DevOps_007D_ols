@@ -11,3 +11,6 @@ Para este proyecto implementamos **GitFlow**. Esta elección se basa en la neces
   * Ejemplos: `feat: agregar validación de rut`, `fix: corregir error 500 en endpoint clientes`, `docs: actualizar readme`.
 * **Estructura de Carpetas:** El repositorio contiene el código fuente del microservicio aislado en su propio directorio para facilitar su contenedorización.
 * **Flujos de Merge y Revisiones:** Todo el código desarrollado en ramas `feature/` o `hotfix/` debe integrarse mediante un **Pull Request (PR)**. Se requiere revisión de código antes de hacer el merge hacia `develop` o `main`.
+
+
+* Hotfix: Puerto por defecto configurado a 8080.
