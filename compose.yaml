@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    ports:
+      - "${PORT}:80"
+    environment:
+      - APP_NAME=${APP_NAME}
+      - APP_ENV=${APP_ENV}
+    restart: always
