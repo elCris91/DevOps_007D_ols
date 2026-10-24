@@ -1,4 +1,13 @@
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
+# fase 1: Compilacion y empaquetado del microservicio
+FROM maven:3.9.8-eclipse-temurin-21-alpine AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# fase 2: Imagen liviana de ejecucion
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

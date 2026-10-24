@@ -1,25 +1,25 @@
-# Microservicio de Clientes - Pipeline DevOps
+##  Trazabilidad, Seguridad y Calidad en CI/CD
 
--Estrategia de Ramificación
-Para este proyecto implementamos **GitFlow**. Esta elección se basa en la necesidad de mantener la rama `main` estrictamente para código estable y listo para producción, utilizando la rama `develop` como entorno de integración principal para el trabajo diario. Esto facilita la colaboración en la nube al aislar el desarrollo de nuevas características y la resolución de errores críticos.
-
--Guía de Buenas Prácticas del Equipo
-* **Naming de Ramas:** 
-  * Nuevas funcionalidades: `feature/<nombre-breve>`
-  * Corrección de errores críticos en producción: `hotfix/<nombre-del-error>`
-* **Mensajes de Commit:** Se utilizará el estándar Conventional Commits.
-  * Ejemplos: `feat: agregar validación de rut`, `fix: corregir error 500 en endpoint clientes`, `docs: actualizar readme`.
-* **Estructura de Carpetas:** El repositorio contiene el código fuente del microservicio aislado en su propio directorio para facilitar su contenedorización.
-* **Flujos de Merge y Revisiones:** Todo el código desarrollado en ramas `feature/` o `hotfix/` debe integrarse mediante un **Pull Request (PR)**. Se requiere revisión de código antes de hacer el merge hacia `develop` o `main`.
-
-
-* Hotfix: Puerto por defecto configurado a 8080.
-*Módulo Clientes versión 1.0.1*
+### Pipeline de Integración y Entrega Continua (GitHub Actions)
+El flujo de CI/CD automatiza las siguientes fases en cada `push` o `pull_request` hacia `develop` y `main`:
+1. **Pruebas Automatizadas (IE2):** Ejecución automatizada de JUnit con detención inmediata del pipeline ante fallos en pruebas[cite: 13].
+2. **Medición de Cobertura (IE2):** Generación de reportes HTML/XML con JaCoCo (v0.8.13)[cite: 9, 11].
+3. **Análisis de Seguridad (IE3):** Escaneo de vulnerabilidades en dependencias mediante **Snyk** y análisis estático de código en **SonarCloud**[cite: 13].
+4. **Orquestación de Contenedores (IE5):** Validación y despliegue multi-contenedor con `Docker Compose` (`app` + `db` con `healthcheck` y `volumes`)[cite: 8, 13].
 
 ---
-**Declaración de uso de IA:** Para la estructuración de este proyecto, resolución de conflictos de GitFlow y configuración del pipeline de GitHub Actions, se utilizó asistencia de Inteligencia Artificial (Gemini) como herramienta de apoyo y guía técnica.
 
-*reflexion de Cristian Retamales: la verdad estuvo complicado aprender esto pero no estuvo tan difícil, a la larga esta hasta entretenido"
+##  Declaración de Uso de Inteligencia Artificial
+De acuerdo con la pauta de evaluación[cite: 7]:
+* **Herramientas utilizadas:** Asistencia interactiva mediante LLM para optimización de scripts YAML, corrección de plugins en `pom.xml` y diseño de `Dockerfile` multi-stage[cite: 7].
+* **Aplicación:** Guía paso a paso, depuración de errores de pipeline y formateo de documentación en Markdown[cite: 7].
 
-*reflexion de diego silva: sste trabajo me sirvió harto para entender cómo poder automatizar procesos en la práctica usando Github. al principio me costó pillar los errores cuando fallaban los scripts, aprendí lo importante que es mantener el repositorio ordenado.
-​Como autocrítica, me falta organizarme mejor desde el inicio y probar todo por partes antes de juntar el proyecto al final. En general, fue una buena experiencia para ver el impacto real de la automatización en devops "
+---
+
+## Reflexiones Individuales (Obligatorias)
+
+### : [Cristian Retamales Reyes]
+### personalmente siento que fue un poco mas complicado que la primera, pero dicho eso poco a poco estoy aprendiendo un poco mas cada vez
+
+### : [Diego Silva]
+### 
