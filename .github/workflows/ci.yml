@@ -53,13 +53,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configurar Java 21
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-          cache: maven
-
+      # snyk va antes de configurar java porque corre en su propio contenedor con su java
+      # si se pone despues, le llega un JAVA_HOME que no existe dentro del contenedor
       # si snyk encuentra vulnerabilidades altas o criticas el pipeline se cae
       - name: Escaneo de dependencias con Snyk
         uses: snyk/actions/maven@master
@@ -68,6 +63,13 @@ jobs:
         with:
           command: test
           args: --severity-threshold=high
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
 
       # sonar solo informa, no bloquea
       - name: Analisis estatico con SonarCloud
