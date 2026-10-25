@@ -67,7 +67,7 @@ jobs:
 
       # si snyk encuentra vulnerabilidades altas o criticas el pipeline se cae
       - name: Escaneo de dependencias con Snyk
-        run: snyk test --severity-threshold=high -d
+        run: snyk test --severity-threshold=high
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
