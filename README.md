@@ -36,4 +36,38 @@ Se ejecuta en cada `push` y `pull_request` hacia `develop` y `main`. Los jobs es
 
 Además, **Dependabot** revisa semanalmente las dependencias de Maven, la imagen Docker y las acciones de GitHub, y abre Pull Requests hacia `develop` cuando hay versiones nuevas o vulnerables.
 
-### Seguridad y
+### Seguridad y escalabilidad
+
+- El contenedor de la app corre con un usuario sin privilegios (no root).
+- Las credenciales de la base de datos vienen de `.env`, no están escritas en el código.
+- La base de datos no expone su puerto hacia fuera: solo la app la alcanza por la red interna de Compose.
+- El pipeline usa permisos mínimos (`contents: read`).
+- Límites de CPU y memoria por contenedor; la JVM ajusta su memoria al límite (`MaxRAMPercentage`).
+- Healthchecks reales (`/actuator/health` y `mysqladmin ping`) y `restart: unless-stopped`.
+- Las vulnerabilidades sin parche disponible quedan documentadas en `.snyk` con justificación y fecha de revisión.
+
+### Trazabilidad
+
+- Cada imagen se etiqueta con el **SHA del commit** y lleva la etiqueta OCI `org.opencontainers.image.revision`, por lo que una imagen desplegada siempre se puede rastrear hasta el commit que la generó.
+- El reporte de cobertura se guarda como artefacto con el SHA en el nombre.
+- Flujo GitFlow con Pull Requests: ningún cambio llega a `main` sin pasar por el pipeline.
+
+## Estrategia de ramificación (GitFlow)
+
+`main` contiene solo código estable; `develop` es la rama de integración. Las nuevas funcionalidades van en `feature/<nombre-breve>` y las correcciones urgentes en `hotfix/<nombre-del-error>`, siempre integradas mediante Pull Request con revisión. Los commits siguen **Conventional Commits** (`feat:`, `fix:`, `ci:`, `docs:`, `chore:`).
+
+---
+
+## Declaración de uso de Inteligencia Artificial
+
+- **Gemini (Google):** apoyo en la configuración inicial del pipeline, corrección de plugins en `pom.xml` y diseño del `Dockerfile` multi-stage.
+- **Claude (Anthropic):** revisión del repositorio contra la pauta y propuesta de mejoras (Dependabot, bloqueo por seguridad, despliegue con smoke test, perfil `prod`, pruebas adicionales), diagnóstico de errores del pipeline (Snyk y permisos de `mvnw`) y migración a Spring Boot 4. Los cambios fueron revisados, probados y aplicados por el equipo.
+
+## Reflexiones individuales
+
+### Cristian Retamales Reyes
+Personalmente siento que fue un poco más complicado que la primera, pero dicho eso poco a poco estoy aprendiendo un poco más cada vez.
+
+
+### Diego Silva
+la verdad tuve bastantes errores intentando arreglar algunas cosas que estaban mal y no entendia, pero me ayude con ia y siento que ahora entendi varias cosas más.
