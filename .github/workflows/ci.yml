@@ -6,16 +6,23 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
 
-jobs:
-  test-and-security:
-    name: Pruebas Unitarias, JaCoCo y Seguridad
-    runs-on: ubuntu-latest
+# el pipeline solo tiene permiso de lectura
+permissions:
+  contents: read
 
+# si hacemos otro push a la misma rama se cancela el anterior
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------- 1. CI
+  test:
+    name: 1. Pruebas unitarias (JUnit) y cobertura (JaCoCo)
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout del código
+      - name: Checkout del codigo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 
 
       - name: Configurar Java 21
         uses: actions/setup-java@v4
@@ -24,32 +31,94 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Ejecutar Pruebas Unitarias y Generar JaCoCo Report
-        run: mvn -B clean test
+      # si falla un test, falla el pipeline
+      - name: Ejecutar pruebas y generar reporte JaCoCo
+        run: mvn -B clean verify
 
-      - name: Escaneo de Vulnerabilidades con Snyk (Maven)
+      - name: Publicar reporte de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report-${{ github.sha }}
+          path: target/site/jacoco/
+
+  # ---------------------------------------------------------- 2. Seguridad
+  security:
+    name: 2. Analisis de seguridad (Snyk + SonarCloud)
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codigo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # si snyk encuentra vulnerabilidades altas o criticas el pipeline se cae
+      - name: Escaneo de dependencias con Snyk
         uses: snyk/actions/maven@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test
-        continue-on-error: true
+          args: --severity-threshold=high
 
-      - name: Análisis de Código y Cobertura con SonarCloud
+      # sonar solo informa, no bloquea
+      - name: Analisis estatico con SonarCloud
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
 
-  docker-validation:
-    name: Orquestación y Validación Docker
-    needs: test-and-security
+  # ------------------------------------------------- 3. Build + despliegue
+  build-and-deploy:
+    name: 3. Build de imagen Docker y despliegue simulado (Docker Compose)
+    needs: security
     runs-on: ubuntu-latest
-
+    env:
+      GIT_SHA: ${{ github.sha }}
     steps:
-      - name: Checkout del código
+      - name: Checkout del codigo
         uses: actions/checkout@v4
 
-      - name: Validar configuración de Docker Compose
-        run: docker compose config
+      - name: Crear .env del entorno simulado
+        run: cp .env.example .env
+
+      - name: Validar compose.yaml
+        run: docker compose config --quiet
+
+      # arma la imagen con el sha del commit y levanta app + bd
+      # --wait espera a que los dos queden healthy, si no falla
+      - name: Construir imagen y desplegar
+        run: docker compose up -d --build --wait --wait-timeout 180
+
+      - name: Verificar imagen y trazabilidad
+        run: |
+          docker compose ps
+          docker image inspect microservicio-clientes:$GIT_SHA \
+            --format 'Imagen construida desde el commit: {{ index .Config.Labels "org.opencontainers.image.revision" }}'
+
+      # probamos que la api responda despues del deploy
+      - name: Smoke test de la API
+        run: |
+          curl -fsS http://localhost:8080/actuator/health
+          curl -fsS -X POST http://localhost:8080/api/v1/clientes \
+            -H "Content-Type: application/json" \
+            -d '{"nombre":"Cliente CI","correo":"ci@duocuc.cl","telefono":"912345678"}'
+          curl -fsS http://localhost:8080/api/v1/clientes | grep -q "ci@duocuc.cl"
+          echo "Despliegue verificado correctamente"
+
+      - name: Logs de los contenedores (si algo fallo)
+        if: failure()
+        run: docker compose logs
+
+      - name: Apagar entorno simulado
+        if: always()
+        run: docker compose down -v
