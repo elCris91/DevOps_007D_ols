@@ -57,7 +57,7 @@ jobs:
       # si se pone despues, le llega un JAVA_HOME que no existe dentro del contenedor
       # si snyk encuentra vulnerabilidades altas o criticas el pipeline se cae
       - name: Escaneo de dependencias con Snyk
-        uses: snyk/actions/maven@master
+        uses: snyk/actions/maven-3-jdk-21@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
