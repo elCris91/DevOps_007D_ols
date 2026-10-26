@@ -1,5 +1,5 @@
 # etapa 1: compilar el proyecto con maven
-FROM maven:3.9.8-eclipse-temurin-21-alpine AS build
+FROM maven:3.9-eclipse-temurin-26-alpine AS build
 WORKDIR /app
 # copiamos el pom primero para que docker guarde en cache las dependencias
 COPY pom.xml .
