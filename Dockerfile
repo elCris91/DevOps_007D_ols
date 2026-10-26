@@ -9,7 +9,7 @@ COPY src ./src
 RUN mvn -B clean package -DskipTests
 
 # etapa 2: imagen final, solo con java (mas liviana)
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
 # guardamos el commit con el que se armo la imagen
 ARG GIT_SHA=local
