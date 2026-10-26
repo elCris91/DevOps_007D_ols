@@ -1,0 +1,21 @@
+# perfil prod, se usa cuando corre en docker (SPRING_PROFILES_ACTIVE=prod)
+# url, usuario y clave de la bd los pasa el compose
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: false
+  h2:
+    console:
+      enabled: false
+
+# solo dejamos visible /actuator/health para el healthcheck
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
