@@ -17,13 +17,12 @@
     <name>Clientes</name>
     <description>Microservicio de Clientes para Evaluacion DevOps</description>
 
-    <properties>
-        <java.version>21</java.version>
-        <sonar.organization>elcris91</sonar.organization>
-        <sonar.projectKey>elCris91_DevOps_007D_ols</sonar.projectKey>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-    </properties>
+   <properties>
+    <java.version>21</java.version>
+    <sonar.projectKey>elCris91_DevOps_007D_ols</sonar.projectKey>
+    <sonar.organization>elcris91</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
 
     <dependencies>
         <dependency>
