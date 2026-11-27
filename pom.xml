@@ -17,9 +17,12 @@
     <name>Clientes</name>
     <description>Microservicio de Clientes para Evaluacion DevOps</description>
 
-    <properties>
-        <java.version>21</java.version>
-    </properties>
+   <properties>
+    <java.version>21</java.version>
+    <sonar.projectKey>elCris91_DevOps_007D_ols</sonar.projectKey>
+    <sonar.organization>elcris91</sonar.organization>
+    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
 
     <dependencies>
         <dependency>
@@ -39,6 +42,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- expone metricas en formato Prometheus en /actuator/prometheus -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>

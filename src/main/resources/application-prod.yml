@@ -1,5 +1,5 @@
-# perfil prod, se usa cuando corre en docker (SPRING_PROFILES_ACTIVE=prod)
-# url, usuario y clave de la bd los pasa el compose
+# perfil prod, se usa cuando corre en docker y kubernetes (SPRING_PROFILES_ACTIVE=prod)
+# url, usuario y clave de la bd los pasan el compose o los secrets de k8s
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -9,13 +9,19 @@ spring:
     console:
       enabled: false
 
-# solo dejamos visible /actuator/health para el healthcheck
+# desactivamos eureka en k8s porque el descubrimiento lo hace kubernetes/istio
+eureka:
+  client:
+    enabled: false
+
+# exponemos health y metricas para prometheus y los probes de kubernetes
 management:
   endpoints:
     web:
       exposure:
-        include: health
+        include: health,info,metrics,prometheus
   endpoint:
     health:
+      show-details: always
       probes:
         enabled: true

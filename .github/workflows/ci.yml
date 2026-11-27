@@ -71,13 +71,17 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      # sonar solo informa, no bloquea
+      # sonar analiza y bloquea el pipeline si no pasa el Quality Gate
       - name: Analisis estatico con SonarCloud
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+        run: >
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.projectKey=elCris91_DevOps_007D_ols
+          -Dsonar.organization=elcris91
+          -Dsonar.host.url=https://sonarcloud.io
+          -Dsonar.qualitygate.wait=true
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
 
   # ------------------------------------------------- 3. Build + despliegue
   build-and-deploy:
